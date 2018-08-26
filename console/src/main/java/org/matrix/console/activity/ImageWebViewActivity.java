@@ -43,7 +43,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.db.MXMediasCache;
 import org.matrix.androidsdk.fragments.IconAndTextDialogFragment;
@@ -172,7 +172,7 @@ public class ImageWebViewActivity extends FragmentActivity {
         }
 
         MXSession session = getSession(intent);
-        HomeserverConnectionConfig hsConfig = session != null ? session.getHomeserverConfig() : null;
+        HomeServerConnectionConfig hsConfig = session != null ? session.getHomeserverConfig() : null;
 
         final int thumbnailWidth = intent.getIntExtra(KEY_THUMBNAIL_WIDTH, 0);
         final int thumbnailHeight = intent.getIntExtra(KEY_THUMBNAIL_HEIGHT, 0);

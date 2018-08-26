@@ -27,7 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.db.MXMediasCache;
@@ -50,10 +50,10 @@ public class ReadReceiptsAdapter extends ArrayAdapter<ReceiptData> {
     private int mLayoutResourceId;
     private Room mRoom;
     private MXMediasCache mMediasCache;
-    private HomeserverConnectionConfig mHsConfig;
+    private HomeServerConnectionConfig mHsConfig;
 
 
-    public ReadReceiptsAdapter(Context context, HomeserverConnectionConfig hsConfig, int layoutResourceId, Room room, MXMediasCache mediasCache) {
+    public ReadReceiptsAdapter(Context context, HomeServerConnectionConfig hsConfig, int layoutResourceId, Room room, MXMediasCache mediasCache) {
         super(context, layoutResourceId);
         mContext = context;
         mLayoutResourceId = layoutResourceId;

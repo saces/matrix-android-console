@@ -18,7 +18,7 @@ package org.matrix.console.adapters;
 
 import android.content.Context;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.adapters.RoomMembersAdapter;
 import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.db.MXMediasCache;
@@ -32,7 +32,7 @@ import java.util.HashMap;
  */
 public class ConsoleRoomMembersAdapter extends RoomMembersAdapter {
 
-    public ConsoleRoomMembersAdapter(Context context, HomeserverConnectionConfig hsConfig, int layoutResourceId, RoomState roomState, MXMediasCache mediasCache, HashMap<String, String> membershipStrings) {
+    public ConsoleRoomMembersAdapter(Context context, HomeServerConnectionConfig hsConfig, int layoutResourceId, RoomState roomState, MXMediasCache mediasCache, HashMap<String, String> membershipStrings) {
         super(context, hsConfig, layoutResourceId, roomState, mediasCache, membershipStrings);
     }
 

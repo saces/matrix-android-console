@@ -30,7 +30,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.model.MatrixError;
@@ -177,7 +177,7 @@ public class LoginActivity extends MXCActionBarActivity {
         }
 
         Uri hsUrl = Uri.parse(hsUrlString);
-        final HomeserverConnectionConfig hsConfig = new HomeserverConnectionConfig(hsUrl);
+        final HomeServerConnectionConfig hsConfig = new HomeServerConnectionConfig(hsUrl);
 
         mLoginButton.setEnabled(false);
         mcreateAccountButton.setEnabled(false);
@@ -186,7 +186,7 @@ public class LoginActivity extends MXCActionBarActivity {
             LoginHandler loginHandler = new LoginHandler();
             loginHandler.login(this, hsConfig, username, password, new SimpleApiCallback<HomeserverConnectionConfig>(this) {
                 @Override
-                public void onSuccess(HomeserverConnectionConfig c) {
+                public void onSuccess(HomeServerConnectionConfig c) {
                     goToSplash();
                     LoginActivity.this.finish();
                 }
@@ -261,7 +261,7 @@ public class LoginActivity extends MXCActionBarActivity {
                 credentials.homeServer = homeServer;
                 credentials.accessToken = accessToken;
 
-                final HomeserverConnectionConfig hsConfig = new HomeserverConnectionConfig(
+                final HomeServerConnectionConfig hsConfig = new HomeServerConnectionConfig(
                     Uri.parse(homeServerUrl), credentials
                 );
 
@@ -283,7 +283,7 @@ public class LoginActivity extends MXCActionBarActivity {
     /**
      * @return the homeserver config. null if the url is not valid
      */
-    private HomeserverConnectionConfig getHsConfig() {
+    private HomeServerConnectionConfig getHsConfig() {
         String hsUrlString = mHomeServerText.getText().toString();
 
         if ((null == hsUrlString) || !hsUrlString.startsWith("http") || TextUtils.equals(hsUrlString, "http://") || TextUtils.equals(hsUrlString, "https://")) {
@@ -295,7 +295,7 @@ public class LoginActivity extends MXCActionBarActivity {
             hsUrlString = "https://" + hsUrlString;
         }
 
-        return new HomeserverConnectionConfig(Uri.parse(hsUrlString));
+        return new HomeServerConnectionConfig(Uri.parse(hsUrlString));
     }
 
     /**
@@ -333,7 +333,7 @@ public class LoginActivity extends MXCActionBarActivity {
     private void checkFlows() {
         try {
             LoginHandler loginHandler = new LoginHandler();
-            final HomeserverConnectionConfig hsConfig = getHsConfig();
+            final HomeServerConnectionConfig hsConfig = getHsConfig();
 
             // invalid URL
             if (null == hsConfig) {

@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.client.LoginRestClient;
@@ -34,8 +34,8 @@ public class LoginHandler {
      * @param password The password;
      * @param callback The callback.
      */
-    public void login(Context ctx, final HomeserverConnectionConfig hsConfig, final String username, final String password,
-                              final SimpleApiCallback<HomeserverConnectionConfig> callback) {
+    public void login(Context ctx, final HomeServerConnectionConfig hsConfig, final String username, final String password,
+                              final ApiCallback<HomeServerConnectionConfig> callback) {
         final Context appCtx = ctx.getApplicationContext();
         LoginRestClient client = new LoginRestClient(hsConfig);
 
@@ -107,7 +107,7 @@ public class LoginHandler {
      * @param hsConfig the home server config.
      * @param callback the supported flows list callback.
      */
-    public void getSupportedFlows(Context ctx, final HomeserverConnectionConfig hsConfig, final SimpleApiCallback<List<LoginFlow>> callback) {
+    public void getSupportedFlows(Context ctx, final HomeServerConnectionConfig hsConfig, final ApiCallback<List<LoginFlow>> callback) {
         final Context appCtx = ctx.getApplicationContext();
         LoginRestClient client = new LoginRestClient(hsConfig);
 

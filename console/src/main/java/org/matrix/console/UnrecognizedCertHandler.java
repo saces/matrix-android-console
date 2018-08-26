@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.ssl.Fingerprint;
 
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class UnrecognizedCertHandler {
     private static HashMap<String, HashSet<Fingerprint>> ignoredFingerprints = new HashMap<String, HashSet<Fingerprint>>();
     private static HashSet<String> openDialogIds = new HashSet<String>();
 
-    public static void show(final HomeserverConnectionConfig hsConfig, final Fingerprint unrecognizedFingerprint, boolean existing, final Callback callback) {
+    public static void show(final HomeServerConnectionConfig hsConfig, final Fingerprint unrecognizedFingerprint, boolean existing, final Callback callback) {
         final Activity activity = ConsoleApplication.getInstance().getCurrentActivity();
         if (activity == null) return;
 

@@ -26,7 +26,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.db.MXMediasCache;
 import org.matrix.androidsdk.rest.model.RoomMember;
 import org.matrix.androidsdk.util.ContentManager;
@@ -49,7 +49,7 @@ public class MembersInvitationAdapter extends ArrayAdapter<RoomMember> {
 
     private MXMediasCache mMediasCache;
 
-    private HomeserverConnectionConfig mHsConfig;
+    private HomeServerConnectionConfig mHsConfig;
 
     /**
      * Construct an adapter which will display a list of room members.
@@ -58,7 +58,7 @@ public class MembersInvitationAdapter extends ArrayAdapter<RoomMember> {
      *                         the IDs: roomMembersAdapter_name, roomMembersAdapter_membership, and
      *                         an ImageView with the ID avatar_img.
      */
-    public MembersInvitationAdapter(Context context, HomeserverConnectionConfig hsConfig, int layoutResourceId, MXMediasCache mediasCache) {
+    public MembersInvitationAdapter(Context context, HomeServerConnectionConfig hsConfig, int layoutResourceId, MXMediasCache mediasCache) {
         super(context, layoutResourceId);
         mContext = context;
         mLayoutResourceId = layoutResourceId;

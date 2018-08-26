@@ -36,7 +36,7 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.ExceptionReporter;
 import com.google.gson.JsonElement;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.rest.model.MatrixError;
 import org.matrix.androidsdk.util.ImageUtils;
 import org.matrix.androidsdk.util.JsonUtils;
@@ -69,9 +69,9 @@ public class ImagesSliderAdapter extends PagerAdapter {
 
     private LayoutInflater mLayoutInflater;
 
-    private HomeserverConnectionConfig mHsConfig;
+    private HomeServerConnectionConfig mHsConfig;
 
-    public ImagesSliderAdapter(Context context, HomeserverConnectionConfig hsConfig, List<SlidableImageInfo> listImageMessages, int maxImageWidth, int maxImageHeight) {
+    public ImagesSliderAdapter(Context context, HomeServerConnectionConfig hsConfig, List<SlidableImageInfo> listImageMessages, int maxImageWidth, int maxImageHeight) {
         this.context = context;
         this.mListImageMessages = listImageMessages;
         this.mMaxImageWidth = maxImageWidth;

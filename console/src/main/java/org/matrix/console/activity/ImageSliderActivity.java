@@ -26,7 +26,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.console.Matrix;
 import org.matrix.console.R;
@@ -112,7 +112,7 @@ public class ImageSliderActivity extends FragmentActivity {
         int maxImageHeight = intent.getIntExtra(ImageSliderActivity.KEY_THUMBNAIL_HEIGHT, 0);
 
         MXSession session = getSession(intent);
-        HomeserverConnectionConfig hsConfig = session != null ? session.getHomeserverConfig() : null;
+        HomeServerConnectionConfig hsConfig = session != null ? session.getHomeserverConfig() : null;
 
         ImagesSliderAdapter adapter = new ImagesSliderAdapter(this, hsConfig, listImageMessages, maxImageWidth, maxImageHeight);
         viewPager.setAdapter(adapter);

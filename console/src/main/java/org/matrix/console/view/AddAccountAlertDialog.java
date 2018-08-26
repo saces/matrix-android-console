@@ -30,7 +30,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.matrix.androidsdk.HomeserverConnectionConfig;
+import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.client.LoginRestClient;
@@ -175,9 +175,9 @@ public class AddAccountAlertDialog extends AlertDialog.Builder  {
 
         try {
             // build the home server config
-            HomeserverConnectionConfig hsConfig = null;
+            HomeServerConnectionConfig hsConfig = null;
             try {
-                hsConfig = new HomeserverConnectionConfig(Uri.parse(mHomeServerUrl));
+                hsConfig = new HomeServerConnectionConfig(Uri.parse(mHomeServerUrl));
             } catch (Exception e) {
             }
 
@@ -256,7 +256,7 @@ public class AddAccountAlertDialog extends AlertDialog.Builder  {
         Uri hsUrl = Uri.parse(hsUrlString);
 
         LoginRestClient client = null;
-        final HomeserverConnectionConfig hsConfig = new HomeserverConnectionConfig(hsUrl);
+        final HomeServerConnectionConfig hsConfig = new HomeServerConnectionConfig(hsUrl);
 
         try {
             client = new LoginRestClient(hsConfig);
@@ -272,7 +272,7 @@ public class AddAccountAlertDialog extends AlertDialog.Builder  {
             LoginHandler loginHandler = new LoginHandler();
             loginHandler.login(mActivity, hsConfig, username, password, new SimpleApiCallback<HomeserverConnectionConfig>(mActivity) {
                 @Override
-                public void onSuccess(HomeserverConnectionConfig c) {
+                public void onSuccess(HomeServerConnectionConfig c) {
                     // loginHandler creates the session so just need to switch to the splash activity
                     mActivity.startActivity(new Intent(mActivity, SplashActivity.class));
                     mActivity.finish();
@@ -321,7 +321,7 @@ public class AddAccountAlertDialog extends AlertDialog.Builder  {
                 credentials.homeServer = homeServer;
                 credentials.accessToken = accessToken;
 
-                final HomeserverConnectionConfig hsConfig = new HomeserverConnectionConfig(
+                final HomeServerConnectionConfig hsConfig = new HomeServerConnectionConfig(
                         Uri.parse(homeServerUrl), credentials
                 );
 
