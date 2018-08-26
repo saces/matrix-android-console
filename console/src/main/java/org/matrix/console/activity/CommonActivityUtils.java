@@ -130,7 +130,7 @@ public class CommonActivityUtils {
         stopEventStream(activity);
 
         try {
-            ShortcutBadger.setBadge(activity, 0);
+            ShortcutBadger.applyCount(activity, 0);
         } catch (Exception e) {
         }
 
@@ -239,7 +239,7 @@ public class CommonActivityUtils {
 
     public static void updateUnreadMessagesBadge(Context context, int badgeValue) {
         try {
-            ShortcutBadger.setBadge(context, badgeValue);
+            ShortcutBadger.applyCount(context, badgeValue);
         } catch (Exception e) {
         }
     }
