@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "org.matrix.console"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 21
         versionCode 16
         versionName "0.5.4"
