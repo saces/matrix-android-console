@@ -172,7 +172,7 @@ public class ImageWebViewActivity extends FragmentActivity {
         }
 
         MXSession session = getSession(intent);
-        HomeServerConnectionConfig hsConfig = session != null ? session.getHomeserverConfig() : null;
+        HomeServerConnectionConfig hsConfig = session != null ? session.getHomeServerConfig() : null;
 
         final int thumbnailWidth = intent.getIntExtra(KEY_THUMBNAIL_WIDTH, 0);
         final int thumbnailHeight = intent.getIntExtra(KEY_THUMBNAIL_HEIGHT, 0);
@@ -184,7 +184,7 @@ public class ImageWebViewActivity extends FragmentActivity {
         }
 
         final MXMediasCache mediasCache = Matrix.getInstance(this).getMediasCache();
-        File mediaFile = mediasCache.mediaCacheFile(mHighResUri, mHighResMimeType);
+        File mediaFile = null; // FIXME SACES mediasCache.mediaCacheFile(mHighResUri, mHighResMimeType);
 
         // is the high picture already downloaded ?
         if (null != mediaFile) {
@@ -203,7 +203,7 @@ public class ImageWebViewActivity extends FragmentActivity {
             mThumbnailUri = null;
 
             // try to retrieve the thumbnail
-            mediaFile = mediasCache.mediaCacheFile(mHighResUri, thumbnailWidth, thumbnailHeight, null);
+            mediaFile = null; // FIXME SACES mediasCache.mediaCacheFile(mHighResUri, thumbnailWidth, thumbnailHeight, null);
             if (null == mediaFile) {
                 Log.e(LOG_TAG, "No Image thumbnail");
                 finish();
@@ -213,11 +213,12 @@ public class ImageWebViewActivity extends FragmentActivity {
             final String loadingUri = mHighResUri;
             mThumbnailUri = mHighResUri = "file://" + mediaFile.getPath();
 
-            final String downloadId = mediasCache.loadBitmap(this, hsConfig, loadingUri, mRotationAngle, mOrientation, mHighResMimeType);
+            final String downloadId = mediasCache.loadBitmap(hsConfig, null, loadingUri, 0, 0, mRotationAngle, mOrientation, mHighResMimeType, null);
 
             if (null != downloadId) {
-                pieFractionView.setFraction(mediasCache.progressValueForDownloadId(downloadId));
+                pieFractionView.setFraction(mediasCache.getProgressValueForDownloadId(downloadId));
 
+                /* FIXME SACES
                 mediasCache.addDownloadListener(downloadId, new MXMediasCache.DownloadCallback() {
                     @Override
                     public void onDownloadStart(String aDownloadId) {
@@ -265,7 +266,7 @@ public class ImageWebViewActivity extends FragmentActivity {
                             }
                         }
                     }
-                });
+                }); */
             }
         }
 
@@ -281,7 +282,7 @@ public class ImageWebViewActivity extends FragmentActivity {
             public boolean onLongClick(View v) {
                 final String highResMediaURI  = intent.getStringExtra(KEY_HIGHRES_IMAGE_URI);
                 final MXMediasCache mediasCache = Matrix.getInstance(ImageWebViewActivity.this).getMediasCache();
-                final File mediaFile = mediasCache.mediaCacheFile(highResMediaURI, mHighResMimeType);
+                final File mediaFile = null; // FIXME SACES mediasCache.mediaCacheFile(highResMediaURI, mHighResMimeType);
 
                 if (null != mediaFile) {
                     FragmentManager fm = ImageWebViewActivity.this.getSupportFragmentManager();

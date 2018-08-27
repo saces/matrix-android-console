@@ -82,7 +82,7 @@ public class AccountsAdapter extends ArrayAdapter<MXSession> {
 
         if (!TextUtils.isEmpty(myUser.getAvatarUrl())) {
             int size = getContext().getResources().getDimensionPixelSize(R.dimen.member_list_avatar_size);
-            mMediasCache.loadAvatarThumbnail(session.getHomeserverConfig(), avatarView, myUser.getAvatarUrl(), size);
+            mMediasCache.loadAvatarThumbnail(session.getHomeServerConfig(), avatarView, myUser.getAvatarUrl(), size);
         }
 
         return convertView;

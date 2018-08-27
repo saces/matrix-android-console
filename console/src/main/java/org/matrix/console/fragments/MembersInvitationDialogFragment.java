@@ -26,7 +26,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import org.matrix.androidsdk.MXSession;
-import org.matrix.androidsdk.data.IMXStore;
+import org.matrix.androidsdk.data.store.IMXStore;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomSummary;
 import org.matrix.androidsdk.db.MXMediasCache;
@@ -239,7 +239,7 @@ public class MembersInvitationDialogFragment extends DialogFragment {
             }
         }
 
-        mAdapter = new MembersInvitationAdapter(getActivity(), mSession.getHomeserverConfig(), R.layout.adapter_item_members_invitation, getMXMediasCache());
+        mAdapter = new MembersInvitationAdapter(getActivity(), mSession.getHomeServerConfig(), R.layout.adapter_item_members_invitation, getMXMediasCache());
 
         Collections.sort(members_OneToOne, alphaComparator);
         Collections.sort(members_MaxTenMembers, alphaComparator);

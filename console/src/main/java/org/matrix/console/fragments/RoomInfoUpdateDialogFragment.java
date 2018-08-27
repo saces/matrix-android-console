@@ -80,7 +80,7 @@ public class RoomInfoUpdateDialogFragment extends DialogFragment {
 
     private void saveRoomInfo() {
         // Save things
-        RoomState roomState = mRoom.getLiveState();
+        RoomState roomState = mRoom.getState();
         String nameFromForm = mEditTextName.getText().toString();
         String topicFromForm = mEditTextTopic.getText().toString();
         String canonicalFromForm = mEditTextCanonical.getText().toString();
@@ -102,7 +102,7 @@ public class RoomInfoUpdateDialogFragment extends DialogFragment {
 
     private boolean hasChanges() {
         // Save things
-        RoomState roomState = mRoom.getLiveState();
+        RoomState roomState = mRoom.getState();
         String nameFromForm = mEditTextName.getText().toString();
         String topicFromForm = mEditTextTopic.getText().toString();
         String canonicalFromForm = mEditTextCanonical.getText().toString();
@@ -126,9 +126,9 @@ public class RoomInfoUpdateDialogFragment extends DialogFragment {
         mEditTextTopic = (EditText)view.findViewById(R.id.editText_topic);
         mEditTextCanonical = (EditText)view.findViewById(R.id.editText_canonical);
 
-        mEditTextName.setText(mRoom.getLiveState().name);
-        mEditTextTopic.setText(mRoom.getLiveState().topic);
-        mEditTextCanonical.setText(mRoom.getLiveState().alias);
+        mEditTextName.setText(mRoom.getState().name);
+        mEditTextTopic.setText(mRoom.getState().topic);
+        mEditTextCanonical.setText(mRoom.getState().alias);
 
         final Button okButton = (Button) view.findViewById(R.id.room_info_ok);
         final Button cancelButton = (Button) view.findViewById(R.id.room_info_cancel);

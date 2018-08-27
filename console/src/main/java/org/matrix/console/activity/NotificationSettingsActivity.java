@@ -35,7 +35,7 @@ import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.listeners.MXEventListener;
 import org.matrix.androidsdk.rest.model.bingrules.BingRule;
-import org.matrix.androidsdk.rest.model.bingrules.BingRuleSet;
+import org.matrix.androidsdk.rest.model.bingrules.PushRuleSet;
 import org.matrix.androidsdk.rest.model.bingrules.ContentRule;
 import org.matrix.androidsdk.util.BingRulesManager;
 import org.matrix.console.Matrix;
@@ -75,7 +75,7 @@ public class NotificationSettingsActivity extends MXCActionBarActivity {
 
     private MXSession mxSession = null;
     private BingRulesManager mBingRulesManager = null;
-    private BingRuleSet mBingRuleSet = null;
+    private PushRuleSet mBingRuleSet = null;
 
     private HashMap<String, CheckBox> mRuleCheckBoxByRuleId = new HashMap<String, CheckBox>();
     private HashMap<CheckBox, String> mRuleIdByCheckBox = new HashMap<CheckBox, String>();
@@ -105,7 +105,7 @@ public class NotificationSettingsActivity extends MXCActionBarActivity {
 
         public void onToggleRule(BingRule rule) {
             allowUserUpdate(false);
-            mBingRulesManager.toggleRule(rule, mOnBingRuleUpdateListener);
+            // FIXME SACES mBingRulesManager.toggleRule(rule, mOnBingRuleUpdateListener);
         }
 
         public void onRemoveRule(BingRule rule) {
@@ -134,7 +134,7 @@ public class NotificationSettingsActivity extends MXCActionBarActivity {
 
             if (null != ruleId) {
                 allowUserUpdate(false);
-                mBingRulesManager.toggleRule(mBingRuleSet.findDefaultRule(ruleId), mOnBingRuleUpdateListener);
+                // FIXME SACES mBingRulesManager.toggleRule(mBingRuleSet.findDefaultRule(ruleId), mOnBingRuleUpdateListener);
             }
         }
     };
@@ -170,7 +170,7 @@ public class NotificationSettingsActivity extends MXCActionBarActivity {
             @Override
             public void onClick(View v) {
                 allowUserUpdate(false);
-                mBingRulesManager.toggleRule(mBingRuleSet.findDefaultRule(BingRule.RULE_ID_DISABLE_ALL), mOnBingRuleUpdateListener);
+                // FIXME SACES mBingRulesManager.toggleRule(mBingRuleSet.findDefaultRule(BingRule.RULE_ID_DISABLE_ALL), mOnBingRuleUpdateListener);
             }
         });
 

@@ -9,9 +9,9 @@ import android.util.Log;
 import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXDataHandler;
 import org.matrix.androidsdk.MXSession;
-import org.matrix.androidsdk.data.IMXStore;
-import org.matrix.androidsdk.data.MXFileStore;
-import org.matrix.androidsdk.data.MXMemoryStore;
+import org.matrix.androidsdk.data.store.IMXStore;
+import org.matrix.androidsdk.data.store.MXFileStore;
+import org.matrix.androidsdk.data.store.MXMemoryStore;
 import org.matrix.androidsdk.db.MXLatestChatMessageCache;
 import org.matrix.androidsdk.db.MXMediasCache;
 import org.matrix.androidsdk.rest.model.login.Credentials;
@@ -296,7 +296,7 @@ public class Matrix {
      */
     public synchronized void clearSession(Context context, MXSession session, Boolean clearCredentials) {
         if (clearCredentials) {
-            mLoginStorage.removeCredentials(session.getHomeserverConfig());
+            mLoginStorage.removeCredentials(session.getHomeServerConfig());
         }
 
         session.clear(context);
@@ -324,7 +324,7 @@ public class Matrix {
      * @param session The session to store as the default session.
      */
     public synchronized void addSession(MXSession session) {
-        mLoginStorage.addCredentials(session.getHomeserverConfig());
+        mLoginStorage.addCredentials(session.getHomeServerConfig());
         synchronized (instance) {
             mMXSessions.add(session);
         }
@@ -353,9 +353,10 @@ public class Matrix {
         if (true) {
             store = new MXFileStore(hsConfig, context);
         } else {
-            store = new MXMemoryStore(hsConfig.getCredentials());
+            store = new MXMemoryStore(hsConfig.getCredentials(), context);
         }
 
+        /* FIXME SACES
         return new MXSession(hsConfig, new MXDataHandler(store, credentials, new MXDataHandler.InvalidTokenListener() {
             @Override
             public void onTokenCorrupted() {
@@ -363,7 +364,8 @@ public class Matrix {
                     CommonActivityUtils.logout(ConsoleApplication.getCurrentActivity());
                 }
             }
-        }), mAppContext);
+        }), mAppContext); */
+        return null;
     }
 
     /**

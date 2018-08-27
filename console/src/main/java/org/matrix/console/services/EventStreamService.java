@@ -31,10 +31,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import org.matrix.androidsdk.MXSession;
-import org.matrix.androidsdk.data.IMXStore;
+import org.matrix.androidsdk.data.store.IMXStore;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.data.RoomSummary;
+import org.matrix.androidsdk.data.store.IMXStoreListener;
 import org.matrix.androidsdk.listeners.MXEventListener;
 import org.matrix.androidsdk.rest.model.Event;
 import org.matrix.androidsdk.rest.model.RoomMember;
@@ -281,7 +282,7 @@ public class EventStreamService extends Service {
                         mNotifiedCallId = event.getContentAsJsonObject().get("call_id").getAsString();
                      } catch (Exception e) {}
                 } else {
-                    EventDisplay eventDisplay = new EventDisplay(getApplicationContext(), event, room.getLiveState());
+                    EventDisplay eventDisplay = new EventDisplay(getApplicationContext(), event, room.getState());
                     body = eventDisplay.getTextualDisplay().toString();
                 }
             } else if (Event.EVENT_TYPE_STATE_ROOM_MEMBER.equals(event.type)) {
@@ -333,7 +334,7 @@ public class EventStreamService extends Service {
 
                 from = member.getName();
 
-                int size = getApplicationContext().getResources().getDimensionPixelSize(org.matrix.androidsdk.R.dimen.chat_avatar_size);
+                int size = getApplicationContext().getResources().getDimensionPixelSize(org.matrix.console.R.dimen.chat_avatar_size);
 
                 File f = session.getMediasCache().thumbnailCacheFile(member.avatarUrl, size);
 
@@ -353,7 +354,7 @@ public class EventStreamService extends Service {
             mNotificationRoomId = roomId;
             mNotificationEventId = event.eventId;
 
-            if (bingRule.isCallRingNotificationSound(bingRule.notificationSound())) {
+            if (bingRule.isCallRingNotificationSound(bingRule.getNotificationSound())) {
                 if (null == CallViewActivity.getActiveCall()) {
                     Log.d(LOG_TAG, "onBingEvent starting");
                     CallViewActivity.startRinging(EventStreamService.this);
@@ -371,10 +372,10 @@ public class EventStreamService extends Service {
                     body,
                     event.roomId,
                     roomName,
-                    bingRule.isDefaultNotificationSound(bingRule.notificationSound()));
+                    bingRule.isDefaultNotificationSound(bingRule.getNotificationSound()));
         }
 
-        @Override
+        // FIXME SACES @Override
         public void onLiveEventsChunkProcessed() {
             if (null != mLatestNotification) {
 
@@ -508,7 +509,7 @@ public class EventStreamService extends Service {
     }
 
     private void startEventStream(final MXSession session, final IMXStore store) {
-        session.getDataHandler().checkPermanentStorageData();
+        // FIXME SACES session.getDataHandler().checkPermanentStorageData();
         session.startEventStream(store.getEventStreamToken());
     }
 
@@ -546,7 +547,12 @@ public class EventStreamService extends Service {
             } else {
                 final MXSession fSession = session;
                 // wait that the store is ready  before starting the events listener
-                store.setMXStoreListener(new IMXStore.MXStoreListener() {
+                store.addMXStoreListener(new IMXStoreListener() {
+                    @Override
+                    public void postProcess(String s) {
+                        // FIXME SACES
+                    }
+
                     @Override
                     public void onStoreReady(String accountId) {
                         startEventStream(fSession, store);
@@ -556,6 +562,16 @@ public class EventStreamService extends Service {
                     public void onStoreCorrupted(String accountId, String description) {
                         Toast.makeText(getApplicationContext(), accountId + " : " + description, Toast.LENGTH_LONG).show();
                         startEventStream(fSession, store);
+                    }
+
+                    @Override
+                    public void onStoreOOM(String s, String s1) {
+                        // FIXME SACES
+                    }
+
+                    @Override
+                    public void onReadReceiptsLoaded(String s) {
+                        // FIXME SACES
                     }
                 });
             };

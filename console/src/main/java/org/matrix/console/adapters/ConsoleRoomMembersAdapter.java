@@ -19,7 +19,7 @@ package org.matrix.console.adapters;
 import android.content.Context;
 
 import org.matrix.androidsdk.HomeServerConnectionConfig;
-import org.matrix.androidsdk.adapters.RoomMembersAdapter;
+import org.matrix.console.adapters.RoomMembersAdapter;
 import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.db.MXMediasCache;
 

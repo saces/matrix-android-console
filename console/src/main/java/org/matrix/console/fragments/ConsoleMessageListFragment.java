@@ -43,19 +43,19 @@ import com.google.gson.JsonElement;
 
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.adapters.MessageRow;
-import org.matrix.androidsdk.adapters.MessagesAdapter;
+import org.matrix.androidsdk.adapters.AbstractMessagesAdapter;
 import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.db.MXMediasCache;
 import org.matrix.androidsdk.fragments.IconAndTextDialogFragment;
 import org.matrix.androidsdk.fragments.MatrixMessageListFragment;
 import org.matrix.androidsdk.rest.model.Event;
-import org.matrix.androidsdk.rest.model.FileMessage;
-import org.matrix.androidsdk.rest.model.ImageMessage;
+import org.matrix.androidsdk.rest.model.message.FileMessage;
+import org.matrix.androidsdk.rest.model.message.ImageMessage;
 import org.matrix.androidsdk.rest.model.MatrixError;
-import org.matrix.androidsdk.rest.model.Message;
+import org.matrix.androidsdk.rest.model.message.Message;
 import org.matrix.androidsdk.rest.model.ReceiptData;
 import org.matrix.androidsdk.rest.model.RoomMember;
-import org.matrix.androidsdk.rest.model.VideoMessage;
+import org.matrix.androidsdk.rest.model.message.VideoMessage;
 import org.matrix.androidsdk.util.EventDisplay;
 import org.matrix.androidsdk.util.JsonUtils;
 import org.matrix.console.ConsoleApplication;
@@ -81,6 +81,8 @@ import java.util.Locale;
 public class ConsoleMessageListFragment extends MatrixMessageListFragment {
 
     private static final String TAG_FRAGMENT_RECEIPTS_DIALOG = "ConsoleMessageListFragment.TAG_FRAGMENT_RECEIPTS_DIALOG";
+    private static final String TAG_FRAGMENT_MESSAGE_OPTIONS = null; // FIXME SACES
+    private static final String TAG_FRAGMENT_MESSAGE_DETAILS = null; // FIXME SACES
 
     public static ConsoleMessageListFragment newInstance(String matrixId, String roomId, int layoutResId) {
         ConsoleMessageListFragment f = new ConsoleMessageListFragment();
@@ -105,7 +107,7 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
     }
 
     @Override
-    public MessagesAdapter createMessagesAdapter() {
+    public AbstractMessagesAdapter createMessagesAdapter() {
         return new ConsoleMessagesAdapter(mSession, getActivity(), getMXMediasCache());
     }
 
@@ -185,7 +187,7 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
     }
 
     /***  MessageAdapter listener  ***/
-    @Override
+    // FIXME SACES @Override
     public void onRowClick(int position) {
         final MessageRow messageRow = mAdapter.getItem(position);
         final List<Integer> textIds = new ArrayList<>();
@@ -251,7 +253,7 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
                         supportShare = false;
                         MXMediasCache cache = getMXMediasCache();
 
-                        File mediaFile = cache.mediaCacheFile(mediaUrl, mediaMimeType);
+                        File mediaFile = null; // FIXME SACES cache.mediaCacheFile(mediaUrl, mediaMimeType);
 
                         if (null != mediaFile) {
                             try {
@@ -470,7 +472,7 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
                 if (listPosition >= 0) {
                     Intent viewImageIntent = new Intent(getActivity(), ImageSliderActivity.class);
 
-                    viewImageIntent.putExtra(ImageSliderActivity.KEY_THUMBNAIL_WIDTH, mAdapter.getMaxThumbnailWith());
+                    viewImageIntent.putExtra(ImageSliderActivity.KEY_THUMBNAIL_WIDTH, 0); // FIXME SACES mAdapter.getMaxThumbnailWith());
                     viewImageIntent.putExtra(ImageSliderActivity.KEY_THUMBNAIL_HEIGHT, mAdapter.getMaxThumbnailHeight());
                     viewImageIntent.putExtra(ImageSliderActivity.KEY_INFO_LIST, listImageMessages);
                     viewImageIntent.putExtra(ImageSliderActivity.KEY_INFO_LIST_INDEX, listPosition);
@@ -482,14 +484,14 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
             FileMessage fileMessage = JsonUtils.toFileMessage(event.content);
 
             if (null != fileMessage.url) {
-                File mediaFile =  mSession.getMediasCache().mediaCacheFile(fileMessage.url, fileMessage.getMimeType());
+                File mediaFile =  null; // FIXME SACES mSession.getMediasCache().mediaCacheFile(fileMessage.url, fileMessage.getMimeType());
 
                 // is the file already saved
                 if (null != mediaFile) {
                     String savedMediaPath = CommonActivityUtils.saveMediaIntoDownloads(getActivity(), mediaFile, fileMessage.body, fileMessage.getMimeType());
                     CommonActivityUtils.openMedia(getActivity(), savedMediaPath, fileMessage.getMimeType());
                 } else {
-                    mSession.getMediasCache().downloadMedia(getActivity(), mSession.getHomeserverConfig(), fileMessage.url, fileMessage.getMimeType());
+                    // FIXME SACES mSession.getMediasCache().downloadMedia(getActivity(), mSession.getHomeServerConfig(), fileMessage.url, fileMessage.getMimeType());
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -497,15 +499,16 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
            final VideoMessage videoMessage = JsonUtils.toVideoMessage(event.content);
 
             if (null != videoMessage.url) {
-                File mediaFile =  mSession.getMediasCache().mediaCacheFile(videoMessage.url, videoMessage.getVideoMimeType());
+                File mediaFile =  null; // FIXME SACES mSession.getMediasCache().mediaCacheFile(videoMessage.url, videoMessage.getMimeType());
 
                 // is the file already saved
                 if (null != mediaFile) {
-                    String savedMediaPath = CommonActivityUtils.saveMediaIntoDownloads(getActivity(), mediaFile, videoMessage.body, videoMessage.getVideoMimeType());
-                    CommonActivityUtils.openMedia(getActivity(), savedMediaPath, videoMessage.getVideoMimeType());
+                    String savedMediaPath = CommonActivityUtils.saveMediaIntoDownloads(getActivity(), mediaFile, videoMessage.body, videoMessage.getMimeType());
+                    CommonActivityUtils.openMedia(getActivity(), savedMediaPath, videoMessage.getMimeType());
                 } else {
-                    final String expectedDownloadId = mSession.getMediasCache().downloadMedia(getActivity(), mSession.getHomeserverConfig(), videoMessage.url, videoMessage.getVideoMimeType());
+                    final String expectedDownloadId = null; // FIXME SACES mSession.getMediasCache().downloadMedia(getActivity(), mSession.getHomeServerConfig(), videoMessage.url, videoMessage.getMimeType());
 
+                    /* FIXME SACES
                     mSession.getMediasCache().addDownloadListener(expectedDownloadId, new MXMediasCache.DownloadCallback() {
                         @Override
                         public void onDownloadStart(String downloadId) {
@@ -522,17 +525,17 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
                         @Override
                         public void onDownloadComplete(String aDownloadId) {
                             if (TextUtils.equals(aDownloadId, expectedDownloadId)) {
-                                File mediaFile =  mSession.getMediasCache().mediaCacheFile(videoMessage.url, videoMessage.getVideoMimeType());
+                                File mediaFile =  mSession.getMediasCache().mediaCacheFile(videoMessage.url, videoMessage.getMimeType());
 
                                 // is the file already saved
                                 if (null != mediaFile) {
-                                    String savedMediaPath = CommonActivityUtils.saveMediaIntoDownloads(getActivity(), mediaFile, videoMessage.body, videoMessage.getVideoMimeType());
-                                    CommonActivityUtils.openMedia(getActivity(), savedMediaPath, videoMessage.getVideoMimeType());
+                                    String savedMediaPath = CommonActivityUtils.saveMediaIntoDownloads(getActivity(), mediaFile, videoMessage.body, videoMessage.getMimeType());
+                                    CommonActivityUtils.openMedia(getActivity(), savedMediaPath, videoMessage.getMimeType());
                                 }
 
                             }
                         }
-                    });
+                    }); */
 
                     mAdapter.notifyDataSetChanged();
                 }
@@ -560,7 +563,7 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
 
     public void onSenderNameClick(String userId, String displayName) {
         if (getActivity() instanceof RoomActivity) {
-            ((RoomActivity)getActivity()).insertInTextEditor(mRoom.getLiveState().getMemberName(userId));
+            ((RoomActivity)getActivity()).insertInTextEditor(mRoom.getState().getMemberName(userId));
         }
     }
 
@@ -605,7 +608,7 @@ public class ConsoleMessageListFragment extends MatrixMessageListFragment {
                         dialog.dismiss();
 
                         MXMediasCache cache = getMXMediasCache();
-                        File cacheFile = cache.mediaCacheFile(mediaUrl, mediaMimeType);
+                        File cacheFile = null; // FIXME SACES cache.mediaCacheFile(mediaUrl, mediaMimeType);
 
                         String entry = fEntries.get(which);
                         String savedFilename = null;

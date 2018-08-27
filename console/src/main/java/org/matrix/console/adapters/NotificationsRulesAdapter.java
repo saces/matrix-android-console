@@ -36,7 +36,7 @@ import android.widget.TextView;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.db.MXLatestChatMessageCache;
-import org.matrix.androidsdk.rest.model.Message;
+import org.matrix.androidsdk.rest.model.message.Message;
 import org.matrix.androidsdk.rest.model.bingrules.BingRule;
 import org.matrix.androidsdk.rest.model.bingrules.ContentRule;
 import org.matrix.console.R;
@@ -110,7 +110,7 @@ public class NotificationsRulesAdapter extends ArrayAdapter<BingRule> {
             settings += mContext.getString(R.string.notification_settings_never_notify);
         }
 
-        if (rule.isDefaultNotificationSound(rule.notificationSound())) {
+        if (rule.isDefaultNotificationSound(rule.getNotificationSound())) {
             settings += ", " + mContext.getString(R.string.notification_settings_custom_sound);
         }
 

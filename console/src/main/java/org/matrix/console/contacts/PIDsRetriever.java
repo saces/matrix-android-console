@@ -111,6 +111,7 @@ public class PIDsRetriever {
             for (MXSession session : sessions) {
                 final String accountId = session.getCredentials().userId;
 
+                /* FIXME SACES
                 session.lookup3Pids(fRequestedAddresses, medias, new ApiCallback<ArrayList<String>>() {
                     @Override
                     public void onSuccess(ArrayList<String> pids) {
@@ -152,7 +153,7 @@ public class PIDsRetriever {
                     public void onUnexpectedError(Exception e) {
 
                     }
-                });
+                }); */
             }
         }
     }

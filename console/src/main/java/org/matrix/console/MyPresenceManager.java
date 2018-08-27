@@ -146,7 +146,7 @@ public class MyPresenceManager {
             latestAdvertisedPresence = presence;
 
             Log.d(LOG_TAG, "Advertising presence " + presence);
-            myUser.updatePresence(presence, null, null);
+            // FIXME SACES myUser.updatePresence(presence, null, null);
         }
     }
 

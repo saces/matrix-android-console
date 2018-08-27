@@ -395,7 +395,7 @@ public class CommonActivityUtils {
                 callback.onSuccess(null);
             }
         } else {
-            session.createRoom(null, null, RoomState.VISIBILITY_PRIVATE, null, new SimpleApiCallback<String>(fromActivity) {
+            session.createRoom(null, null, RoomState.DIRECTORY_VISIBILITY_PRIVATE, null, null /* FIXME SACES */, null /* FIXME SACES */,  new SimpleApiCallback<String>(fromActivity) {
 
                 @Override
                 public void onSuccess(String roomId) {
@@ -534,15 +534,15 @@ public class CommonActivityUtils {
         Collections.sort(mergedSummaries, new Comparator<RoomSummary>() {
             @Override
             public int compare(RoomSummary lhs, RoomSummary rhs) {
-                if (lhs == null || lhs.getLatestEvent() == null) {
+                if (lhs == null || lhs.getLatestReceivedEvent() == null) {
                     return 1;
-                } else if (rhs == null || rhs.getLatestEvent() == null) {
+                } else if (rhs == null || rhs.getLatestReceivedEvent() == null) {
                     return -1;
                 }
 
-                if (lhs.getLatestEvent().getOriginServerTs() > rhs.getLatestEvent().getOriginServerTs()) {
+                if (lhs.getLatestReceivedEvent().getOriginServerTs() > rhs.getLatestReceivedEvent().getOriginServerTs()) {
                     return -1;
-                } else if (lhs.getLatestEvent().getOriginServerTs() < rhs.getLatestEvent().getOriginServerTs()) {
+                } else if (lhs.getLatestReceivedEvent().getOriginServerTs() < rhs.getLatestReceivedEvent().getOriginServerTs()) {
                     return 1;
                 }
                 return 0;

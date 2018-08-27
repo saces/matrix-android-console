@@ -31,7 +31,9 @@ import android.widget.TextView;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomState;
+import org.matrix.androidsdk.rest.callback.ApiCallback;
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
+import org.matrix.androidsdk.rest.model.MatrixError;
 import org.matrix.console.R;
 import org.matrix.console.activity.CommonActivityUtils;
 
@@ -89,7 +91,7 @@ public class RoomCreationDialogFragment extends DialogFragment {
 
 
                         CheckBox publicCheckbox = (CheckBox) view.findViewById(R.id.checkbox_room_creation);
-                        final String roomVisibility = publicCheckbox.isChecked() ? RoomState.VISIBILITY_PUBLIC : RoomState.VISIBILITY_PRIVATE;
+                        final String roomVisibility = publicCheckbox.isChecked() ? RoomState.DIRECTORY_VISIBILITY_PUBLIC : RoomState.DIRECTORY_VISIBILITY_PRIVATE;
 
                         EditText roomAliasEdittext = (EditText) view.findViewById(R.id.editText_roomAlias);
                         String roomAlias = roomAliasEdittext.getText().toString();
@@ -110,7 +112,22 @@ public class RoomCreationDialogFragment extends DialogFragment {
                         // get the members list
                         final ArrayList<String> userIDsList = CommonActivityUtils.parseUserIDsList(participantsEdittext.getText().toString(), homeServerSuffix);
 
-                        mSession.createRoom(roomName, null, roomVisibility, roomAlias, new SimpleApiCallback<String>(getActivity()) {
+                        mSession.createRoom(roomName, null, roomVisibility, roomAlias, null, null, new ApiCallback<String>() {
+                            @Override
+                            public void onNetworkError(Exception e) {
+                                // FIXME SACES
+                            }
+
+                            @Override
+                            public void onMatrixError(MatrixError matrixError) {
+                                // FIXME SACES
+                            }
+
+                            @Override
+                            public void onUnexpectedError(Exception e) {
+                                // FIXME SACES
+                            }
+
                             @Override
                             public void onSuccess(String roomId) {
                                 CommonActivityUtils.goToRoomPage(mSession, roomId, activity, null);

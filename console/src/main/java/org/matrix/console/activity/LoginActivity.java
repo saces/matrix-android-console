@@ -184,7 +184,7 @@ public class LoginActivity extends MXCActionBarActivity {
 
         try {
             LoginHandler loginHandler = new LoginHandler();
-            loginHandler.login(this, hsConfig, username, password, new SimpleApiCallback<HomeserverConnectionConfig>(this) {
+            loginHandler.login(this, hsConfig, username, password, new SimpleApiCallback<HomeServerConnectionConfig>(this) {
                 @Override
                 public void onSuccess(HomeServerConnectionConfig c) {
                     goToSplash();

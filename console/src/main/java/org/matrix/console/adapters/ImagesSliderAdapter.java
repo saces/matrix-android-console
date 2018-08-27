@@ -109,13 +109,14 @@ public class ImagesSliderAdapter extends PagerAdapter {
         final SlidableImageInfo imageInfo = mListImageMessages.get(position);
         final String viewportContent = "width=640";
         final String loadingUri = imageInfo.mImageUrl;
-        final String downloadId = mediasCache.loadBitmap(this.context, mHsConfig, loadingUri, imageInfo.mRotationAngle, imageInfo.mOrientation, imageInfo.mMimeType);
+        final String downloadId = mediasCache.loadBitmap(this.context, mHsConfig, loadingUri, imageInfo.mRotationAngle, imageInfo.mOrientation, imageInfo.mMimeType, null /*FIXME SACES */);
 
         if (null != downloadId) {
             pieFractionView.setVisibility(View.VISIBLE);
 
-            pieFractionView.setFraction(mediasCache.progressValueForDownloadId(downloadId));
+            pieFractionView.setFraction(mediasCache.getProgressValueForDownloadId(downloadId));
 
+            /* FIXME SACES
             mediasCache.addDownloadListener(downloadId, new MXMediasCache.DownloadCallback() {
                 @Override
                 public void onDownloadStart(String aDownloadId) {
@@ -165,7 +166,7 @@ public class ImagesSliderAdapter extends PagerAdapter {
                         }
                     }
                 }
-            });
+            }); */
         }
     }
 
@@ -195,7 +196,7 @@ public class ImagesSliderAdapter extends PagerAdapter {
         final String mimeType = imageInfo.mMimeType;
 
         final MXMediasCache mediasCache = Matrix.getInstance(this.context).getMediasCache();
-        File mediaFile = mediasCache.mediaCacheFile(mediaUrl, mimeType);
+        File mediaFile = null;// FIXME SACES File mediaFile = mediasCache.mediaCacheFile(mediaUrl, mimeType);
 
         // is the high picture already downloaded ?
         if (null != mediaFile) {
@@ -204,7 +205,7 @@ public class ImagesSliderAdapter extends PagerAdapter {
             }
         } else {
             // try to retrieve the thumbnail
-            mediaFile = mediasCache.mediaCacheFile(mediaUrl, mMaxImageWidth, mMaxImageHeight, null);
+            // FIXME SACES mediaFile = mediasCache.mediaCacheFile(mediaUrl, mMaxImageWidth, mMaxImageHeight, null);
         }
 
         // the thumbnail is not yet downloaded

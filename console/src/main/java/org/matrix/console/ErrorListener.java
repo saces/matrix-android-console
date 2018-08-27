@@ -59,11 +59,11 @@ public class ErrorListener implements ApiFailureCallback {
             mActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    UnrecognizedCertHandler.show(mSession.getHomeserverConfig(), fingerprint, true, new UnrecognizedCertHandler.Callback() {
+                    UnrecognizedCertHandler.show(mSession.getHomeServerConfig(), fingerprint, true, new UnrecognizedCertHandler.Callback() {
                         @Override
                         public void onAccept() {
                             LoginStorage loginStorage = Matrix.getInstance(mActivity.getApplicationContext()).getLoginStorage();
-                            loginStorage.replaceCredentials(mSession.getHomeserverConfig());
+                            loginStorage.replaceCredentials(mSession.getHomeServerConfig());
                         }
 
                         @Override

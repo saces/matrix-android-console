@@ -30,8 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.matrix.androidsdk.MXSession;
-import org.matrix.androidsdk.adapters.RoomMembersAdapter;
-import org.matrix.androidsdk.data.IMXStore;
+import org.matrix.console.adapters.RoomMembersAdapter;
+import org.matrix.androidsdk.data.store.IMXStore;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.listeners.MXEventListener;
@@ -244,7 +244,7 @@ public class MemberDetailsActivity extends MXCActionBarActivity {
                         });
                     } else  if (text.equals(getResources().getString(R.string.set_power_level))) {
                         String title = getResources().getString(R.string.set_power_level);
-                        String initText =  mRoom.getLiveState().getPowerLevels().getUserPowerLevel(mMemberId) + "";
+                        String initText =  mRoom.getState().getPowerLevels().getUserPowerLevel(mMemberId) + "";
 
                         final AlertDialog alert = CommonActivityUtils.createEditTextAlert(MemberDetailsActivity.this,title,null,initText,new CommonActivityUtils.OnSubmitListener() {
                             @Override
@@ -326,7 +326,7 @@ public class MemberDetailsActivity extends MXCActionBarActivity {
         ArrayList<String> buttonTitles = new ArrayList<String>();
 
         // Check user's power level before allowing an action (kick, ban, ...)
-        PowerLevels powerLevels = mRoom.getLiveState().getPowerLevels();
+        PowerLevels powerLevels = mRoom.getState().getPowerLevels();
 
         int userPowerLevel = powerLevels.getUserPowerLevel(mMemberId);
         int myPowerLevel = powerLevels.getUserPowerLevel(mFromUserId);
@@ -335,7 +335,7 @@ public class MemberDetailsActivity extends MXCActionBarActivity {
         if (mMemberId.equals(mFromUserId)) {
             buttonTitles.add(getResources().getString(R.string.leave));
 
-            if (userPowerLevel >= powerLevels.stateDefault) {
+            if (userPowerLevel >= powerLevels.state_default) {
                 buttonTitles.add(getResources().getString(R.string.set_power_level));
             }
         } else {
@@ -367,7 +367,7 @@ public class MemberDetailsActivity extends MXCActionBarActivity {
             }
 
             // update power level
-            if (myPowerLevel >= powerLevels.stateDefault) {
+            if (myPowerLevel >= powerLevels.state_default) {
                 buttonTitles.add(getResources().getString(R.string.set_power_level));
             }
 
@@ -429,7 +429,7 @@ public class MemberDetailsActivity extends MXCActionBarActivity {
                 presenceTextView.setText(User.PRESENCE_OFFLINE);
                 presenceTextView.setTextColor(Color.RED);
             } else {
-                presenceTextView.setText(buildLastActiveDisplay(user.getRealLastActiveAgo()));
+                presenceTextView.setText(buildLastActiveDisplay(user.getAbsoluteLastActiveAgo()));
                 presenceTextView.setTextColor(Color.BLACK);
             }
         }
@@ -443,7 +443,7 @@ public class MemberDetailsActivity extends MXCActionBarActivity {
 
         if (mMember.avatarUrl != null) {
             int size = getResources().getDimensionPixelSize(R.dimen.profile_avatar_size);
-            Matrix.getInstance(this).getMediasCache().loadAvatarThumbnail(mSession.getHomeserverConfig(), mThumbnailImageView, mMember.avatarUrl, size);
+            Matrix.getInstance(this).getMediasCache().loadAvatarThumbnail(mSession.getHomeServerConfig(), mThumbnailImageView, mMember.avatarUrl, size);
         }
     }
 

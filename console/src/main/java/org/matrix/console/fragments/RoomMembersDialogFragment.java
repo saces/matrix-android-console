@@ -31,7 +31,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.matrix.androidsdk.MXSession;
-import org.matrix.androidsdk.data.IMXStore;
+import org.matrix.androidsdk.data.store.IMXStore;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.db.MXMediasCache;
@@ -100,7 +100,7 @@ public class RoomMembersDialogFragment extends DialogFragment {
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                         boolean displayLeftMembers = preferences.getBoolean(getString(R.string.settings_key_display_left_members), false);
 
-                        if (member.hasLeft() && !displayLeftMembers) {
+                        if (member.kickedOrBanned() /* FIXME SACES */ && !displayLeftMembers) {
                             mAdapter.deleteUser(user);
                             mAdapter.remove(member);
                             mAdapter.notifyDataSetChanged();
@@ -181,7 +181,7 @@ public class RoomMembersDialogFragment extends DialogFragment {
         membershipStrings.put(RoomMember.MEMBERSHIP_LEAVE, getActivity().getString(R.string.membership_leave));
         membershipStrings.put(RoomMember.MEMBERSHIP_BAN, getActivity().getString(R.string.membership_ban));
 
-        mAdapter = new ConsoleRoomMembersAdapter(getActivity(), mSession.getHomeserverConfig(), R.layout.adapter_item_room_members, room.getLiveState(), getMXMediasCache(), membershipStrings);
+        mAdapter = new ConsoleRoomMembersAdapter(getActivity(), mSession.getHomeServerConfig(), 0 /* FIXME SACES R.layout.adapter_item_room_members*/, room.getState(), getMXMediasCache(), membershipStrings);
 
         // apply the sort settings
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -196,7 +196,7 @@ public class RoomMembersDialogFragment extends DialogFragment {
 
             for (RoomMember m : members) {
                 // by default the
-                if ((!m.hasLeft()) || displayLeftMembers) {
+                if ((!m.kickedOrBanned()) /* FIXME SACES */ || displayLeftMembers) {
                     mAdapter.add(m);
                     mAdapter.saveUser(store.getUser(m.getUserId()));
                 }
@@ -204,7 +204,7 @@ public class RoomMembersDialogFragment extends DialogFragment {
             mAdapter.sortMembers();
         }
 
-        mAdapter.setPowerLevels(room.getLiveState().getPowerLevels());
+        mAdapter.setPowerLevels(room.getState().getPowerLevels());
         mListView.setAdapter(mAdapter);
 
         // display the number of members in this room

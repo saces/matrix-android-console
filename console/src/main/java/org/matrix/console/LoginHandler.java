@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXSession;
-import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
+import org.matrix.androidsdk.rest.callback.ApiCallback;
 import org.matrix.androidsdk.rest.client.LoginRestClient;
 import org.matrix.androidsdk.rest.model.MatrixError;
 import org.matrix.androidsdk.rest.model.login.Credentials;
@@ -39,7 +39,7 @@ public class LoginHandler {
         final Context appCtx = ctx.getApplicationContext();
         LoginRestClient client = new LoginRestClient(hsConfig);
 
-        client.loginWithPassword(username, password, new SimpleApiCallback<Credentials>() {
+        client.loginWithUser(username, password, new ApiCallback<Credentials>() {
             @Override
             public void onSuccess(Credentials credentials) {
                 Collection<MXSession> sessions = Matrix.getMXSessions(appCtx);
@@ -51,7 +51,7 @@ public class LoginHandler {
                 }
 
                 if (!isDuplicated) {
-                    hsConfig.setCredentials(credentials);
+                    // FIXME SACES hsConfig.setCredentials(credentials);
                     MXSession session = Matrix.getInstance(appCtx).createSession(hsConfig);
                     Matrix.getInstance(appCtx).addSession(session);
                 }
@@ -111,7 +111,7 @@ public class LoginHandler {
         final Context appCtx = ctx.getApplicationContext();
         LoginRestClient client = new LoginRestClient(hsConfig);
 
-        client.getSupportedLoginFlows(new SimpleApiCallback<List<LoginFlow>>() {
+        client.getSupportedLoginFlows(new ApiCallback<List<LoginFlow>>() {
             @Override
             public void onSuccess(List<LoginFlow> flows) {
                 Log.d(LOG_TAG, "getSupportedFlows " + flows);

@@ -347,6 +347,7 @@ public final class GcmRegistrationManager {
      * @param listener the registration listener
      */
     public void registerSession(final MXSession session, boolean append, final GcmSessionRegistration listener) {
+        /* FIXME SACES
         session.getPushersRestClient()
                 .addHttpPusher(mPushKey, mPusherAppId, computePushTag(session),
                         mPusherLang, mPusherAppName, mBasePusherDeviceName,
@@ -396,7 +397,7 @@ public final class GcmRegistrationManager {
                                 Log.e(LOG_TAG, "registerPusher onUnexpectedError " + e.getMessage());
                                 onError(e.getLocalizedMessage());
                             }
-                        });
+                        }); */
     }
 
 

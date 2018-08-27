@@ -104,9 +104,9 @@ public class SplashActivity extends MXCActionBarActivity {
             session.getDataHandler().getStore().open();
 
             final IMXEventListener eventListener = new MXEventListener() {
-                @Override
+                // FIXME SACES @Override
                 public void onInitialSyncComplete() {
-                    super.onInitialSyncComplete();
+                    super.onInitialSyncComplete("");  // FIXME SACES
                     Boolean noMoreListener;
 
                     Log.e(LOG_TAG, "Session " + fSession.getCredentials().userId + " is initialized");

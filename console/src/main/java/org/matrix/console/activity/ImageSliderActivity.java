@@ -112,7 +112,7 @@ public class ImageSliderActivity extends FragmentActivity {
         int maxImageHeight = intent.getIntExtra(ImageSliderActivity.KEY_THUMBNAIL_HEIGHT, 0);
 
         MXSession session = getSession(intent);
-        HomeServerConnectionConfig hsConfig = session != null ? session.getHomeserverConfig() : null;
+        HomeServerConnectionConfig hsConfig = session != null ? session.getHomeServerConfig() : null;
 
         ImagesSliderAdapter adapter = new ImagesSliderAdapter(this, hsConfig, listImageMessages, maxImageWidth, maxImageHeight);
         viewPager.setAdapter(adapter);

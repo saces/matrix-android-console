@@ -52,6 +52,7 @@ import org.matrix.androidsdk.HomeServerConnectionConfig;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.call.IMXCall;
 import org.matrix.androidsdk.call.MXCallsManager;
+import org.matrix.androidsdk.call.MXCallsManagerListener;
 import org.matrix.androidsdk.data.Room;
 import org.matrix.androidsdk.data.RoomState;
 import org.matrix.androidsdk.data.RoomSummary;
@@ -62,7 +63,7 @@ import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.client.LoginRestClient;
 import org.matrix.androidsdk.rest.model.Event;
 import org.matrix.androidsdk.rest.model.MatrixError;
-import org.matrix.androidsdk.rest.model.PublicRoom;
+import org.matrix.androidsdk.rest.model.publicroom.PublicRoom;
 import org.matrix.androidsdk.rest.model.RoomMember;
 import org.matrix.androidsdk.rest.model.login.Credentials;
 import org.matrix.androidsdk.util.EventUtils;
@@ -171,7 +172,7 @@ public class HomeActivity extends MXCActionBarActivity {
     };
 
     private HashMap<MXSession, MXEventListener> mListenersBySession = new HashMap<MXSession, MXEventListener>();
-    private HashMap<MXSession, MXCallsManager.MXCallsManagerListener> mCallListenersBySession = new HashMap<MXSession, MXCallsManager.MXCallsManagerListener>();
+    private HashMap<MXSession, MXCallsManagerListener> mCallListenersBySession = new HashMap<MXSession, MXCallsManagerListener>();
 
     private ConsoleRoomSummaryAdapter mAdapter;
     private EditText mSearchRoomEditText;
@@ -196,7 +197,7 @@ public class HomeActivity extends MXCActionBarActivity {
 
         // check if the session is still active
         if (session.isAlive()) {
-            final String homeServerUrl = session.getHomeserverConfig().getHomeserverUri().toString();
+            final String homeServerUrl = session.getHomeServerConfig().getHomeserverUri().toString();
 
             // the home server has already been checked ?
             if (checkedHomeServers.indexOf(homeServerUrl) >= 0) {
@@ -204,6 +205,7 @@ public class HomeActivity extends MXCActionBarActivity {
                 refreshPublicRoomsList(sessions, checkedHomeServers, index + 1, publicRoomsListList);
             } else {
                 // use any session to get the public rooms list
+                /* FIXME SACES
                 session.getEventsApiClient().loadPublicRooms(new SimpleApiCallback<List<PublicRoom>>(this) {
                     @Override
                     public void onSuccess(List<PublicRoom> publicRooms) {
@@ -213,7 +215,7 @@ public class HomeActivity extends MXCActionBarActivity {
                         // jump to the next session
                         refreshPublicRoomsList(sessions, checkedHomeServers, index + 1, publicRoomsListList);
                     }
-                });
+                }); */
             }
         } else {
             refreshPublicRoomsList(sessions, checkedHomeServers, index + 1, publicRoomsListList);
@@ -225,7 +227,7 @@ public class HomeActivity extends MXCActionBarActivity {
         ArrayList<MXSession> matchedSessions = new ArrayList<MXSession>();
 
         for(MXSession session : sessions) {
-            String sessionHsUrl = session.getHomeserverConfig().getHomeserverUri().toString();
+            String sessionHsUrl = session.getHomeServerConfig().getHomeserverUri().toString();
             if (sessionHsUrl.equals(homeServerURL)) {
                 matchedSessions.add(session);
             }
@@ -275,7 +277,7 @@ public class HomeActivity extends MXCActionBarActivity {
         mMyRoomList = (ExpandableListView) findViewById(R.id.listView_myRooms);
         // the chevron is managed in the header view
         mMyRoomList.setGroupIndicator(null);
-        mAdapter = new ConsoleRoomSummaryAdapter(this, Matrix.getMXSessions(this), R.layout.adapter_item_my_rooms, R.layout.adapter_room_section_header);
+        mAdapter = new ConsoleRoomSummaryAdapter(this, Matrix.getMXSessions(this), 0, 0); // FIXME SACES R.layout.adapter_item_my_rooms, R.layout.adapter_room_section_header);
 
         if (null != savedInstanceState) {
             if (savedInstanceState.containsKey(PUBLIC_ROOMS_LIST_LIST)) {
@@ -583,7 +585,7 @@ public class HomeActivity extends MXCActionBarActivity {
         MXEventListener listener = new MXEventListener() {
             private boolean mInitialSyncComplete = false;
 
-            @Override
+            // FIXME SACES @Override
             public void onInitialSyncComplete() {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -670,7 +672,7 @@ public class HomeActivity extends MXCActionBarActivity {
                 });
             }
 
-            @Override
+            // FIXME SACES @Override
             public void onLiveEventsChunkProcessed() {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -712,7 +714,7 @@ public class HomeActivity extends MXCActionBarActivity {
                             if ((!event.roomId.equals(viewedRoomId) || !matrixId.equals(fromMatrixId))  && !event.getSender().equals(matrixId)) {
                                 RoomSummary summary = session.getDataHandler().getStore().getSummary(event.roomId);
                                 if (null != summary) {
-                                    summary.setHighlighted(summary.isHighlighted() || EventUtils.shouldHighlight(session, event));
+                                    // FIXME SACES summary.setHighlighted(summary.isHighlighted() || EventUtils.shouldHighlight(session, event));
                                 }
                             }
 
@@ -736,7 +738,7 @@ public class HomeActivity extends MXCActionBarActivity {
                 }
             }
 
-            @Override
+            // FIXME SACES @Override
             public void onRoomSyncWithLimitedTimeline(String roomId) {
                 if (mInitialSyncComplete) {
                     List<MXSession> sessions = new ArrayList<MXSession>(Matrix.getMXSessions(HomeActivity.this));
@@ -794,7 +796,7 @@ public class HomeActivity extends MXCActionBarActivity {
                     if (null != room) {
                         summary.setName(room.getName(session.getCredentials().userId));
                     } else if (null == summary.getRoomName()) {
-                        summary.setName(getString(R.string.summary_invitation));
+                        summary.setName(getString(org.matrix.console.R.string.summary_invitation));
                     }
                 }
 
@@ -812,12 +814,12 @@ public class HomeActivity extends MXCActionBarActivity {
         mListenersBySession.put(session, listener);
 
         // call listener
-        MXCallsManager.MXCallsManagerListener callsManagerListener = new MXCallsManager.MXCallsManagerListener() {
+        MXCallsManagerListener callsManagerListener = new MXCallsManagerListener() {
 
             /**
              * Called when there is an incoming call within the room.
              */
-            @Override
+            // FIXME SACES @Override
             public void onIncomingCall(final IMXCall call) {
                 // can only manage one call instance.
                 if (null == CallViewActivity.getActiveCall()) {

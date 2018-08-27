@@ -270,7 +270,7 @@ public class AddAccountAlertDialog extends AlertDialog.Builder  {
 
         try {
             LoginHandler loginHandler = new LoginHandler();
-            loginHandler.login(mActivity, hsConfig, username, password, new SimpleApiCallback<HomeserverConnectionConfig>(mActivity) {
+            loginHandler.login(mActivity, hsConfig, username, password, new SimpleApiCallback<HomeServerConnectionConfig>(mActivity) {
                 @Override
                 public void onSuccess(HomeServerConnectionConfig c) {
                     // loginHandler creates the session so just need to switch to the splash activity

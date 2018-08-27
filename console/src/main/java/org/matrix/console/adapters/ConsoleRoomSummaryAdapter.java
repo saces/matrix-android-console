@@ -27,7 +27,7 @@ import org.matrix.androidsdk.data.RoomSummary;
 import org.matrix.androidsdk.rest.model.User;
 import org.matrix.console.Matrix;
 import org.matrix.console.R;
-import org.matrix.androidsdk.adapters.RoomSummaryAdapter;
+import org.matrix.console.adapters.RoomSummaryAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.call.IMXCall;
+import org.matrix.androidsdk.call.IMXCallListener;
 import org.matrix.androidsdk.call.MXCallsManager;
 import org.matrix.androidsdk.rest.model.RoomMember;
 import org.matrix.console.ConsoleApplication;
@@ -103,7 +104,7 @@ public class CallViewActivity extends FragmentActivity {
     private static boolean firstCallAlert = true;
     private static int mCallVolume = 0;
 
-    private IMXCall.MXCallListener mListener = new IMXCall.MXCallListener() {
+    private IMXCallListener mListener = new IMXCallListener() {
         @Override
         public void onStateDidChange(String state) {
             if (null != getInstance()) {
@@ -153,7 +154,7 @@ public class CallViewActivity extends FragmentActivity {
         }
 
         @Override
-        public void onViewLoading(View callview) {
+        public void onCallViewCreated(View callview) {
             Log.d(LOG_TAG, "onViewLoading");
 
             mCallView = callview;
@@ -161,13 +162,13 @@ public class CallViewActivity extends FragmentActivity {
         }
 
         @Override
-        public void onViewReady() {
+        public void onReady() {
             Log.d(LOG_TAG, "onViewReady");
 
             if (!mCall.isIncoming()) {
-                mCall.placeCall();
+                mCall.placeCall(null);  // FIXME SACES
             } else {
-                mCall.launchIncomingCall();
+                mCall.launchIncomingCall(null); // FIXME SACES
             }
         }
 
@@ -189,7 +190,7 @@ public class CallViewActivity extends FragmentActivity {
         }
 
         @Override
-        public void onCallEnd() {
+        public void onCallEnd(int i) {
             CallViewActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -200,6 +201,11 @@ public class CallViewActivity extends FragmentActivity {
                     CallViewActivity.this.finish();
                 }
             });
+        }
+
+        @Override
+        public void onPreviewSizeChanged(int i, int i1) {
+
         }
     };
 
@@ -247,7 +253,7 @@ public class CallViewActivity extends FragmentActivity {
         if ((instance == null) && (null != mCall)) {
             // check if the call can be resume
             // or it's still valid
-            if (!canCallBeResumed() || (null == mCall.getSession().mCallsManager.callWithCallId(mCall.getCallId()))) {
+            if (!canCallBeResumed() || (null == mCall.getSession().mCallsManager.getCallWithCallId(mCall.getCallId()))) {
                 EventStreamService.getInstance().hidePendingCallNotification(mCall.getCallId());
                 mCall = null;
                 mSavedCallview = null;
@@ -287,7 +293,7 @@ public class CallViewActivity extends FragmentActivity {
 
         if (!TextUtils.isEmpty(avatarUrl)) {
             int size = CallViewActivity.this.getResources().getDimensionPixelSize(R.dimen.member_list_avatar_size);
-            mSession.getMediasCache().loadAvatarThumbnail(mSession.getHomeserverConfig(), avatarView, avatarUrl, size);
+            mSession.getMediasCache().loadAvatarThumbnail(mSession.getHomeServerConfig(), avatarView, avatarUrl, size);
         }
 
         RelativeLayout layout = (RelativeLayout)CallViewActivity.this.findViewById(R.id.call_layout);
@@ -329,7 +335,7 @@ public class CallViewActivity extends FragmentActivity {
             return;
         }
 
-        mCall = mSession.mCallsManager.callWithCallId(mCallId);
+        mCall = mSession.mCallsManager.getCallWithCallId(mCallId);
 
         if (null == mCall) {
             Log.e(LOG_TAG, "invalid callId");
@@ -538,7 +544,8 @@ public class CallViewActivity extends FragmentActivity {
                 @Override
                 public void onClick(View v) {
                     if (null != mCall) {
-                        mCall.toggleSpeaker();
+                        // FIXME SACES mCall.toggleSpeaker();
+                        mCall.muteVideoRecording(!mCall.isVideoRecordingMuted());
                         refreshSpeakerButton();
                     }
                 }
@@ -611,7 +618,7 @@ public class CallViewActivity extends FragmentActivity {
                 public void run() {
                     AudioManager audioManager = (AudioManager) CallViewActivity.this.getSystemService(Context.AUDIO_SERVICE);
                     audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, mCallVolume, 0);
-                    MXCallsManager.setSpeakerphoneOn(CallViewActivity.this, mCall.isVideo());
+                    // FIXME SACES MXCallsManager.setSpeakerphoneOn(CallViewActivity.this, mCall.isVideo());
                     refreshSpeakerButton();
                 }
             });
@@ -862,7 +869,7 @@ public class CallViewActivity extends FragmentActivity {
                 mCallEndTone = null;
             }
 
-            MXCallsManager.setSpeakerphoneOn(context, true);
+            // FIXME SACES MXCallsManager.setSpeakerphoneOn(context, true);
             mRingTone.play();
             return;
         }
@@ -889,7 +896,7 @@ public class CallViewActivity extends FragmentActivity {
                     mRingbackPlayer.stop();
                 }
 
-                MXCallsManager.setSpeakerphoneOn(context, true);
+                // FIXME SACES MXCallsManager.setSpeakerphoneOn(context, true);
                 mRingingPlayer.start();
             }
         }
@@ -921,7 +928,7 @@ public class CallViewActivity extends FragmentActivity {
                 mCallEndTone = null;
             }
 
-            MXCallsManager.setSpeakerphoneOn(context, true);
+            // FIXME SACES MXCallsManager.setSpeakerphoneOn(context, true);
             mRingbackTone.play();
             return;
         }
@@ -947,7 +954,7 @@ public class CallViewActivity extends FragmentActivity {
                     mRingingPlayer.stop();
                 }
 
-                MXCallsManager.setSpeakerphoneOn(context, true);
+                // FIXME SACES MXCallsManager.setSpeakerphoneOn(context, true);
                 mRingbackPlayer.start();
             }
         }
@@ -1009,7 +1016,7 @@ public class CallViewActivity extends FragmentActivity {
                 mRingbackTone = null;
             }
 
-            MXCallsManager.setSpeakerphoneOn(context, true);
+            // FIXME SACES MXCallsManager.setSpeakerphoneOn(context, true);
             mCallEndTone.play();
             return;
         }
@@ -1022,7 +1029,7 @@ public class CallViewActivity extends FragmentActivity {
 
         // sanity checks
         if ((null != mCallEndPlayer) && !mCallEndPlayer.isPlaying()) {
-            MXCallsManager.setSpeakerphoneOn(context, true);
+            // FIXME SACES MXCallsManager.setSpeakerphoneOn(context, true);
             mCallEndPlayer.start();
         }
         stopRinging();

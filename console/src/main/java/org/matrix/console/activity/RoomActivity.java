@@ -60,9 +60,9 @@ import org.matrix.androidsdk.listeners.MXEventListener;
 import org.matrix.androidsdk.rest.callback.ApiCallback;
 import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
 import org.matrix.androidsdk.rest.model.Event;
-import org.matrix.androidsdk.rest.model.FileMessage;
+import org.matrix.androidsdk.rest.model.message.FileMessage;
 import org.matrix.androidsdk.rest.model.MatrixError;
-import org.matrix.androidsdk.rest.model.Message;
+import org.matrix.androidsdk.rest.model.message.Message;
 import org.matrix.androidsdk.rest.model.RoomMember;
 import org.matrix.androidsdk.rest.model.bingrules.BingRule;
 import org.matrix.androidsdk.util.BingRulesManager;
@@ -601,7 +601,7 @@ public class RoomActivity extends MXCActionBarActivity {
                                                 }
 
                                                 //
-                                                mConsoleMessageListFragment.uploadImageContent(mPendingThumbnailUrl, mPendingMediaUrl, mPendingFilename, mPendingMimeType);
+                                                // FIXME SACES mConsoleMessageListFragment.uploadImageContent(mPendingThumbnailUrl, mPendingMediaUrl, mPendingFilename, mPendingMimeType);
                                                 mPendingThumbnailUrl = null;
                                                 mPendingMediaUrl = null;
                                                 mPendingMimeType = null;
@@ -622,7 +622,7 @@ public class RoomActivity extends MXCActionBarActivity {
                     }
 
                     if (sendMedia) {
-                        mConsoleMessageListFragment.uploadImageContent(mPendingThumbnailUrl, mPendingMediaUrl, mPendingFilename, mPendingMimeType);
+                        // FIXME SACES mConsoleMessageListFragment.uploadImageContent(mPendingThumbnailUrl, mPendingMediaUrl, mPendingFilename, mPendingMimeType);
                         mPendingThumbnailUrl = null;
                         mPendingMediaUrl = null;
                         mPendingMimeType = null;
@@ -802,7 +802,7 @@ public class RoomActivity extends MXCActionBarActivity {
 
 
         if (hasPreviewedMedia) {
-            mMediasCache.loadBitmap(mSession.getHomeserverConfig(), mImagePreviewView, mPendingThumbnailUrl, 0, ExifInterface.ORIENTATION_UNDEFINED, mPendingMimeType);
+            // FIXME SACES mMediasCache.loadBitmap(mSession.getHomeServerConfig(), mImagePreviewView, mPendingThumbnailUrl, 0, ExifInterface.ORIENTATION_UNDEFINED, mPendingMimeType);
         }
 
         mImagePreviewLayout.setVisibility(hasPreviewedMedia ? View.VISIBLE : View.GONE);
@@ -1024,7 +1024,8 @@ public class RoomActivity extends MXCActionBarActivity {
             }
         } else if ((id == R.id.ic_action_voice_call) || (id == R.id.ic_action_video_call)) {
             // create the call object
-            IMXCall call = mSession.mCallsManager.createCallInRoom(mRoom.getRoomId());
+            /* FIXME SACES
+            mSession.mCallsManager.createCallInRoom(mRoom.getRoomId());
 
             if (null != call) {
                 call.setIsVideo((id != R.id.ic_action_voice_call));
@@ -1042,7 +1043,7 @@ public class RoomActivity extends MXCActionBarActivity {
                         RoomActivity.this.startActivity(intent);
                     }
                 });
-            }
+            } */
         } else if (id == R.id.ic_action_invite_by_list) {
             FragmentManager fm = getSupportFragmentManager();
 
@@ -1158,7 +1159,7 @@ public class RoomActivity extends MXCActionBarActivity {
                 String message = body.substring(CMD_EMOTE.length()).trim();
 
                 if (message.length() > 0) {
-                    mConsoleMessageListFragment.sendEmote(message);
+                    // FIXME SACES mConsoleMessageListFragment.sendEmote(message);
                 }
             } else if (body.startsWith(CMD_JOIN_ROOM)) {
                 isIRCCmd = true;
@@ -1367,7 +1368,7 @@ public class RoomActivity extends MXCActionBarActivity {
                                         Log.e(LOG_TAG, "MediaStore.Images.Thumbnails.getThumbnail " + e.getMessage());
                                     }
 
-                                    double thumbnailWidth = mConsoleMessageListFragment.getMaxThumbnailWith();
+                                    double thumbnailWidth = 0; // FIXME SACES mConsoleMessageListFragment.getMaxThumbnailWith();
                                     double thumbnailHeight = mConsoleMessageListFragment.getMaxThumbnailHeight();
 
                                     // no thumbnail has been found or the mimetype is unknown
@@ -1504,7 +1505,7 @@ public class RoomActivity extends MXCActionBarActivity {
 
                                                     manageSendMoreButtons();
                                                 } else {
-                                                    mConsoleMessageListFragment.uploadImageContent(fThumbnailURL, fMediaUrl, fFilename, fMimeType);
+                                                    // FIXME SACES mConsoleMessageListFragment.uploadImageContent(fThumbnailURL, fMediaUrl, fFilename, fMimeType);
                                                 }
                                             }
                                         });
@@ -1520,9 +1521,9 @@ public class RoomActivity extends MXCActionBarActivity {
                                         @Override
                                         public void run() {
                                             if ((null != fMimeType) && fMimeType.startsWith("video/")) {
-                                                mConsoleMessageListFragment.uploadVideoContent(fMediaUrl, null, fMimeType);
+                                                // FIXME SACES mConsoleMessageListFragment.uploadVideoContent(fMediaUrl, null, fMimeType);
                                             } else {
-                                                mConsoleMessageListFragment.uploadFileContent(fMediaUrl, fMimeType, fFilename);
+                                                // FIXME SACES mConsoleMessageListFragment.uploadFileContent(fMediaUrl, fMimeType, fFilename);
                                             }
                                         }
                                     });
@@ -1678,7 +1679,7 @@ public class RoomActivity extends MXCActionBarActivity {
 			FileOutputStream fileOutputStream =
                            new FileOutputStream(pfd.getFileDescriptor());
 
-            File sourceFile = mMediasCache.mediaCacheFile(mPendingMediaUrl, mPendingMimeType);
+            File sourceFile = null; // FIXME SACES mMediasCache.mediaCacheFile(mPendingMediaUrl, mPendingMimeType);
 
             FileInputStream inputStream = new FileInputStream(sourceFile);
 

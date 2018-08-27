@@ -100,7 +100,7 @@ public class ReadReceiptsDialogFragment extends DialogFragment {
         mListView = ((ListView)v.findViewById(R.id.listView_members));
 
         final Room room = mSession.getDataHandler().getRoom(mRoomId);
-        mAdapter = new ReadReceiptsAdapter(getActivity(), mSession.getHomeserverConfig(), R.layout.adapter_item_read_receipt, room, getMXMediasCache());
+        mAdapter = new ReadReceiptsAdapter(getActivity(), mSession.getHomeServerConfig(), R.layout.adapter_item_read_receipt, room, getMXMediasCache());
 
         mAdapter.addAll(new ArrayList<ReceiptData>(mSession.getDataHandler().getStore().getEventReceipts(mRoomId, mEventId, true, true)));
         mListView.setAdapter(mAdapter);

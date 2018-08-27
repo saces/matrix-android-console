@@ -95,7 +95,7 @@ public class SettingsActivity extends MXCActionBarActivity {
             avatarView.setImageResource(R.drawable.ic_contact_picture_holo_light);
         } else {
             int size = getResources().getDimensionPixelSize(R.dimen.profile_avatar_size);
-            mMediasCache.loadAvatarThumbnail(session.getHomeserverConfig(), avatarView, avatarUrl, size);
+            mMediasCache.loadAvatarThumbnail(session.getHomeServerConfig(), avatarView, avatarUrl, size);
         }
     }
 
@@ -106,7 +106,7 @@ public class SettingsActivity extends MXCActionBarActivity {
     private String computeApplicationCacheSize() {
         long size = 0;
 
-        size += mMediasCache.cacheSize();
+        // FIXME SACES size += mMediasCache.cacheSize();
 
         for(MXSession session : Matrix.getMXSessions(SettingsActivity.this)) {
             if (session.isAlive()) {
@@ -248,7 +248,7 @@ public class SettingsActivity extends MXCActionBarActivity {
 
             config += String.format(
                     getString(R.string.settings_config_home_server),
-                    session.getHomeserverConfig().getHomeserverUri().toString()
+                    session.getHomeServerConfig().getHomeserverUri().toString()
             );
             config += "\n";
 
@@ -635,8 +635,9 @@ public class SettingsActivity extends MXCActionBarActivity {
                 return;
             }
 
-            final ProgressDialog progressDialog = ProgressDialog.show(this, null, getString(R.string.message_uploading), true);
+            final ProgressDialog progressDialog = ProgressDialog.show(this, null, getString(org.matrix.console.R.string.message_uploading), true);
 
+            /* FIXME SACES
             session.getContentManager().uploadContent(resource.contentStream, null, resource.mimeType, null, new ContentManager.UploadCallback() {
 
                 @Override
@@ -669,7 +670,7 @@ public class SettingsActivity extends MXCActionBarActivity {
                     }
                     progressDialog.dismiss();
                 }
-            });
+            }); */
         }
     }
 
