@@ -55,7 +55,7 @@
             android:layout_marginRight="10dp"
             android:id="@+id/imageView_matrix_user"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/matrix_user"/>
+            android:src="@drawable/matrix_icon_user"/>
             />
     </LinearLayout>
 
