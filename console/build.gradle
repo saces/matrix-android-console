@@ -87,7 +87,7 @@ def gitRevisionDate() {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'me.leolin:ShortcutBadger:1.1.0+@aar'
+    compile 'me.leolin:ShortcutBadger:1.1.22@aar'
 
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:cardview-v7:21.0.+'
