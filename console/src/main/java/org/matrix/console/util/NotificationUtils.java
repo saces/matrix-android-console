@@ -5,17 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.RemoteInput;
-import android.support.v4.app.TaskStackBuilder;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.RemoteInput;
+import androidx.core.app.TaskStackBuilder;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -26,7 +23,6 @@ import org.matrix.console.R;
 import org.matrix.console.activity.LockScreenActivity;
 import org.matrix.console.activity.RoomActivity;
 
-import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -279,7 +275,7 @@ public class NotificationUtils {
 
         // some devices crash if this field is not set
         // even if it is deprecated
-        n.setLatestEventInfo(context, from, body, pendingIntent);
+        //n.setLatestEventInfo(context, from, body, pendingIntent);
 
         return n;
     }

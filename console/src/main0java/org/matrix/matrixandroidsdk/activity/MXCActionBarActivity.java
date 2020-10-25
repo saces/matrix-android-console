@@ -16,7 +16,7 @@
 
 package org.matrix.console.activity;
 
-import android.support.v7.app.ActionBarActivity;
+import androidx.appcompat.app.ActionBarActivity;
 
 import org.matrix.console.ConsoleApplication;
 import org.matrix.console.Matrix;

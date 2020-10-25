@@ -385,7 +385,7 @@ public class EventStreamService extends Service {
 
                     // turn the screen on for 3 seconds
                     PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                    PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "MXEventListener");
+                    PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "mcon:MXEventListener");
                     wl.acquire(3000);
                     wl.release();
                 } catch (Exception e) {
@@ -661,11 +661,7 @@ public class EventStreamService extends Service {
     }
 
     private Notification buildNotification() {
-        Notification notification = new Notification(
-                (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) ? R.drawable.ic_menu_small_matrix : R.drawable.ic_menu_small_matrix_transparent,
-                "Matrix",
-                System.currentTimeMillis()
-        );
+
 
         // go to the home screen if this is clicked.
         Intent i = new Intent(this, HomeActivity.class);
@@ -675,9 +671,15 @@ public class EventStreamService extends Service {
 
         PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
 
-        notification.setLatestEventInfo(this, getString(R.string.app_name),
-                "Listening for events",
-                pi);
+        // Use new API
+
+        Notification.Builder builder = new Notification.Builder(getApplicationContext())
+                .setContentIntent(pi)
+                .setSmallIcon(R.drawable.ic_menu_small_matrix_transparent)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Listening for events");
+        Notification notification = builder.build();
+
         notification.flags |= Notification.FLAG_NO_CLEAR;
         return notification;
     }

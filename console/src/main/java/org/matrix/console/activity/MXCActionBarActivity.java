@@ -20,14 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -38,13 +31,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.legacy.app.ActionBarDrawerToggle;
+
 import org.matrix.androidsdk.MXSession;
 import org.matrix.console.ConsoleApplication;
 import org.matrix.console.Matrix;
 import org.matrix.console.MyPresenceManager;
 import org.matrix.console.R;
 import org.matrix.console.adapters.DrawerAdapter;
-import org.matrix.console.services.EventStreamService;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ import java.util.ArrayList;
 /**
  * extends ActionBarActivity to manage the rageshake
  */
-public class MXCActionBarActivity extends ActionBarActivity {
+public class MXCActionBarActivity extends AppCompatActivity {
     public static final String TAG_FRAGMENT_ACCOUNT_SELECTION_DIALOG = "org.matrix.console.ActionBarActivity.TAG_FRAGMENT_ACCOUNT_SELECTION_DIALOG";
     public static final String EXTRA_MATRIX_ID = "org.matrix.console.MXCActionBarActivity.EXTRA_MATRIX_ID";
 
@@ -171,7 +170,7 @@ public class MXCActionBarActivity extends ActionBarActivity {
 
         // close any opened dialog
         FragmentManager fm = getSupportFragmentManager();
-        java.util.List<android.support.v4.app.Fragment> fragments = fm.getFragments();
+        java.util.List<Fragment> fragments = fm.getFragments();
 
         if (null != fragments) {
             for (Fragment fragment : fragments) {

@@ -30,9 +30,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.text.BoringLayout;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -56,7 +56,6 @@ import org.matrix.console.contacts.ContactsManager;
 import org.matrix.console.contacts.PIDsRetriever;
 import org.matrix.console.fragments.AccountsSelectionDialogFragment;
 import org.matrix.console.services.EventStreamService;
-import org.matrix.console.store.LoginStorage;
 import org.matrix.console.util.RageShake;
 
 import java.io.File;

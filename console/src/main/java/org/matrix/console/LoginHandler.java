@@ -1,11 +1,8 @@
 package org.matrix.console;
 
 import android.content.Context;
-import android.net.Uri;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.matrix.androidsdk.HomeserverConnectionConfig;
 import org.matrix.androidsdk.MXSession;

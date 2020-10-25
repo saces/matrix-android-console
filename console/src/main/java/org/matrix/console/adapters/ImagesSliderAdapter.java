@@ -24,7 +24,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.view.PagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +33,6 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.ExceptionReporter;
 import com.google.gson.JsonElement;
 
 import org.matrix.androidsdk.HomeserverConnectionConfig;
@@ -45,13 +44,10 @@ import org.matrix.console.Matrix;
 import org.matrix.console.R;
 
 import org.matrix.androidsdk.db.MXMediasCache;
-import org.matrix.console.activity.CommonActivityUtils;
-import org.matrix.console.activity.ImageSliderActivity;
 import org.matrix.console.util.SlidableImageInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
