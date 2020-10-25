@@ -50,6 +50,8 @@ android {
         }
     }
 
+    flavorDimensions "geschmacksrichtung"
+
     productFlavors {
         alpha {
             applicationId "org.matrix.androidsdk.alpha"
