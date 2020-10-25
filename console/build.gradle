@@ -53,7 +53,13 @@ android {
     flavorDimensions "geschmacksrichtung"
 
     productFlavors {
-        alpha {
+        gcm {
+            applicationId "org.matrix.androidsdk.alpha"
+            versionCode 16
+            versionName "0.5.4"
+        }
+
+        foss {
             applicationId "org.matrix.androidsdk.alpha"
             versionCode 16
             versionName "0.5.4"
@@ -95,8 +101,8 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
-    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
-    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+    gcmImplementation 'com.google.android.gms:play-services-gcm:17.0.0'
+    gcmImplementation 'com.google.android.gms:play-services-analytics:17.0.0'
 
     implementation 'com.squareup.retrofit:retrofit:1.6.1'
     implementation 'com.google.code.gson:gson:2.3'
